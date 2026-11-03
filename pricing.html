@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Packages - FeminaCare</title>
+    <script src="tailwind.js"></script>
+    <link rel="icon" type="image/jpeg" href="images\images (6).png">
+    <link rel="icon" type="image/png" href="images\images (6).png">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontWeight: {
+                        semibold: '500',
+                        bold: '600',
+                        extrabold: '800',
+                        black: '900'
+                    },
+                    colors: {
+                        accent: 'var(--accent-color)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* === RESET & CORE === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* === THEME VARIABLES === */
+        :root {
+            --bg-color: #FAFAFA;
+            --bg-secondary: #F0F9FF;
+            --bg-card: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --accent-color: #0EA5E9;
+            --accent-dark: #0284C7;
+            --border-color: #E2E8F0;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --drawer-bg: rgba(255, 255, 255, 0.98);
+            --menu-hover-bg: rgba(14, 165, 233, 0.08);
+        }
+
+        body.dark-mode {
+            --bg-color: #0F172A;
+            --bg-secondary: #1E293B;
+            --bg-card: #1E293B;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --accent-color: #38BDF8;
+            --accent-dark: #0EA5E9;
+            --border-color: #334155;
+            --nav-bg: rgba(15, 23, 42, 0.85);
+            --drawer-bg: rgba(15, 23, 42, 0.98);
+            --menu-hover-bg: rgba(56, 189, 248, 0.15);
+        }
+
+        /* RTL SUPPORT */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .ml-auto { margin-right: auto; margin-left: 0; }
+        [dir="rtl"] .mr-auto { margin-left: auto; margin-right: 0; }
+
+        /* === NAVBAR === */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color); height: 85px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center;
+        }
+        .navbar.scrolled { height: 75px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border-bottom-color: transparent; }
+        body.dark-mode .navbar.scrolled { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+
+        .nav-link {
+            position: relative; padding: 8px 12px; margin: 0 8px; color: var(--text-main);
+            text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; transition: all 0.3s ease; display: inline-flex;
+            align-items: center; justify-content: center; gap: 6px; cursor: pointer;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 2px; background: var(--accent-color); transition: width 0.3s ease; border-radius: 2px;
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link:hover, .nav-link.active { color: var(--accent-color); }
+
+        .dropdown { position: relative; display: flex; align-items: center; height: 100%; }
+        .dropdown-menu {
+            position: absolute; top: 50px; left: 0; transform: translateY(15px); opacity: 0;
+            visibility: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100;
+        }
+        .dropdown-inner {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px;
+            min-width: 220px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08); padding: 8px;
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        body.dark-mode .dropdown-inner { box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item {
+            display: block; padding: 12px 16px; border-radius: 8px; color: var(--text-main);
+            text-decoration: none; font-size: 12px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.5px; transition: all 0.2s; text-align: left; white-space: nowrap;
+        }
+        .dropdown-item:hover { background: var(--menu-hover-bg); color: var(--accent-color); padding-left: 24px; }
+        [dir="rtl"] .dropdown-item:hover { padding-left: 16px; padding-right: 24px; }
+
+        /* PILL TOGGLE */
+        .theme-toggle-pill {
+            width: 52px; height: 28px; background: var(--bg-secondary); border-radius: 30px;
+            position: relative; cursor: pointer; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 6px; border: 1px solid var(--border-color);
+        }
+        body.dark-mode .theme-toggle-pill { border-color: var(--border-color); }
+        .theme-toggle-pill i { font-size: 10px; z-index: 1; }
+        .theme-toggle-pill .fa-sun { color: #f59e0b; }
+        .theme-toggle-pill .fa-moon { color: #999; }
+        .theme-toggle-pill .thumb {
+            position: absolute; top: 1px; left: 2px; width: 24px; height: 24px;
+            background: white; border-radius: 50%; transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); z-index: 2; border: 1px solid var(--border-color);
+        }
+        body.dark-mode .theme-toggle-pill .thumb { transform: translateX(22px); background: #333; border-color: var(--border-color); }
+
+        /* RTL BUTTON STYLE */
+        .rtl-btn-style {
+            width: 44px; height: 28px; background: var(--bg-secondary); border-radius: 6px;
+            border: 1px solid var(--border-color); display: flex; align-items: center;
+            justify-content: center; font-size: 10px; font-weight: 800; cursor: pointer;
+            color: var(--text-main); transition: all 0.3s ease;
+        }
+        body.dark-mode .rtl-btn-style { border-color: var(--border-color); }
+        .rtl-btn-style:hover { background: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+
+        /* === BUTTON DESIGN === */
+        .btn {
+            padding: 12px 28px; font-weight: 700; font-size: 12px; text-transform: uppercase;
+            letter-spacing: 1px; transition: all 0.3s ease; display: inline-flex;
+            align-items: center; justify-content: center; cursor: pointer;
+            position: relative; border: 1px solid transparent; border-radius: 8px;
+        }
+        .btn-solid { background: var(--accent-color); color: #FFFFFF !important; }
+        .btn-solid:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 20px -3px rgba(14, 165, 233, 0.4); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+        .btn-outline:hover { border-color: var(--accent-color); color: var(--accent-color) !important; transform: translateY(-2px); box-shadow: 0 8px 20px -3px rgba(0, 0, 0, 0.05); }
+
+        /* MOBILE OVERLAY & HAMBURGER */
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 999;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease; backdrop-filter: blur(4px);
+        }
+        .drawer-overlay.active { opacity: 1; visibility: visible; }
+        .fullscreen-menu {
+            position: fixed; top: 0; right: 0; width: 100%; max-width: 400px; height: 100dvh;
+            background: var(--drawer-bg); z-index: 1001; display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden; transform: translateX(100%);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid var(--border-color);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.05);
+        }
+        [dir="rtl"] .fullscreen-menu {
+            right: auto; left: 0; transform: translateX(-100%); border-left: none;
+            border-right: 1px solid var(--border-color); box-shadow: 10px 0 40px rgba(0,0,0,0.05);
+        }
+        .fullscreen-menu.active { opacity: 1; visibility: visible; transform: translateX(0); }
+        .mobile-link {
+            display: block; width: 100%; padding: 16px 32px; font-size: 1.1rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-main);
+            text-decoration: none; transition: all 0.3s; border-bottom: 1px solid var(--border-color);
+        }
+        .mobile-link:hover { color: var(--accent-color); background: var(--menu-hover-bg); padding-left: 40px; }
+        [dir="rtl"] .mobile-link:hover { padding-left: 32px; padding-right: 40px; }
+
+        /* FOOTER */
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding-top: 80px; }
+        body.dark-mode footer { border-color: var(--border-color); }
+        footer h4 { color: var(--text-main); font-weight: 600; font-size: 1.1rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px; }
+        footer a, footer li, footer span { color: var(--text-muted); text-decoration: none; transition: all 0.3s; font-size: 0.95rem; font-weight: 400; }
+        footer a:hover { color: var(--accent-color); }
+        .social-link-circle {
+            width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+            color: var(--text-main); background: transparent;
+        }
+        .social-link-circle:hover { background: var(--accent-color); border-color: var(--accent-color); color: #FFFFFF; transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid var(--border-color); padding: 32px 0; margin-top: 60px; }
+
+        /* PRICING & PROMO CARD STANDARDIZATION */
+        .uniform-card-grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            .uniform-card-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        .uniform-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px 32px;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .uniform-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--accent-color);
+        }
+        .uniform-card-header {
+            margin-bottom: 24px;
+        }
+        .uniform-card-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .uniform-card-footer {
+            margin-top: 32px;
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+    <!-- NAVBAR PART -->
+    <nav class="navbar" id="main-nav">
+        <div class="w-full max-w-[1440px] mx-auto px-6 lg:px-12 flex items-center justify-between h-full">
+            <div class="flex items-center flex-shrink-0">
+                <a href="index.html" class="inline-flex items-center gap-3 text-2xl font-black tracking-widest uppercase"
+                    style="color: var(--text-main) !important; text-decoration: none;">
+                    <i class="fas fa-heartbeat" style="color: var(--accent-color); font-size: 1.5rem;"></i>
+                    FeminaCare
+                </a>
+            </div>
+
+            <div class="hidden xl:flex justify-center items-center flex-1 ml-4">
+                <div class="dropdown">
+                    <div class="nav-link">Home <i class="fas fa-chevron-down text-[10px] ml-1 opacity-60"></i></div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-inner">
+                            <a href="index.html" class="dropdown-item">Home Page 1</a>
+                            <a href="home-2.html" class="dropdown-item">Home Page 2</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="pricing.html" class="nav-link active">Pricing</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="faq.html" class="nav-link">FAQ</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <div class="dropdown">
+                    <div class="nav-link">Portals <i class="fas fa-chevron-down text-[10px] ml-1 opacity-60"></i></div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-inner">
+                            <a href="user.html" class="dropdown-item">Patient Portal</a>
+                            <a href="admin.html" class="dropdown-item">Staff Portal</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden xl:flex items-center gap-5 shrink-0">
+                <div id="theme-toggle-desktop" class="theme-toggle-pill" title="Toggle Dark Mode">
+                    <i class="fas fa-sun"></i><i class="fas fa-moon"></i>
+                    <div class="thumb"></div>
+                </div>
+                <button id="rtl-btn" class="rtl-btn-style" title="Toggle LTR/RTL">LTR</button>
+                <div class="w-px h-6 bg-[var(--border-color)] mx-1"></div>
+                <a href="login.html" class="btn btn-solid !w-[100px] !h-[40px] !p-0 !text-[11px] shadow-md shadow-[var(--accent-color)]/20">Login</a>
+            </div>
+
+            <div class="xl:hidden flex items-center justify-end gap-4 shrink-0">
+                <button id="mobile-btn"
+                    class="w-12 h-12 rounded-xl flex items-center justify-center bg-[var(--bg-secondary)] border border-[var(--border-color)] text-xl text-[var(--text-main)] transition-all hover:bg-[var(--accent-color)] hover:text-white hover:border-[var(--accent-color)]">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HAMBURGER MENU PART -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <div class="fullscreen-menu" id="fullscreen-menu">
+        <div class="w-full px-8 py-6 flex justify-between items-center shrink-0 border-b border-[var(--border-color)]">
+            <a href="index.html" class="inline-flex items-center gap-3 text-2xl font-black tracking-widest uppercase"
+                style="color: var(--text-main) !important; text-decoration: none;">
+                <i class="fas fa-heartbeat" style="color: var(--accent-color); font-size: 1.5rem;"></i>
+                FeminaCare
+            </a>
+            <button id="close-menu"
+                class="w-10 h-10 rounded-lg flex items-center justify-center bg-[var(--bg-secondary)] border border-[var(--border-color)] transition-all text-xl text-[var(--text-main)] hover:bg-rose-500 hover:text-white hover:border-rose-500">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="flex flex-col w-full overflow-y-auto flex-1 py-4">
+            <a href="index.html" class="mobile-link">Home Page 1</a>
+            <a href="home-2.html" class="mobile-link">Home Page 2</a>
+            <a href="about.html" class="mobile-link">About</a>
+            <a href="services.html" class="mobile-link">Services</a>
+            <a href="pricing.html" class="mobile-link" style="color: var(--accent-color); background: var(--menu-hover-bg);">Pricing</a>
+            <a href="blog.html" class="mobile-link">Blog</a>
+            <a href="faq.html" class="mobile-link">FAQ</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+            
+            <div class="px-8 mt-6 mb-2">
+                <span class="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">Portals</span>
+            </div>
+            <a href="user.html" class="mobile-link !text-sm text-[var(--text-muted)]">Patient Portal</a>
+            <a href="admin.html" class="mobile-link !text-sm text-[var(--text-muted)]">Staff Portal</a>
+        </div>
+
+        <div class="w-full px-8 py-8 border-t border-[var(--border-color)] flex flex-col gap-6 shrink-0 bg-[var(--bg-secondary)]">
+            <div class="flex justify-between items-center w-full">
+                <div class="flex items-center gap-3">
+                    <span class="text-[var(--text-muted)] font-bold text-[10px] uppercase tracking-widest">Theme</span>
+                    <div id="theme-toggle-mobile" class="theme-toggle-pill"><i class="fas fa-sun"></i><i class="fas fa-moon"></i>
+                        <div class="thumb"></div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-[var(--text-muted)] font-bold text-[10px] uppercase tracking-widest">Dir</span>
+                    <button id="rtl-toggle-mobile" class="rtl-btn-style">LTR</button>
+                </div>
+            </div>
+            <div class="flex gap-4 w-full">
+                <a href="login.html" class="btn btn-solid flex-1 !py-4 shadow-md text-sm">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRICING HERO BANNER PART -->
+    <section class="w-full h-[100dvh] pt-[85px] bg-[var(--bg-color)] border-b border-[var(--border-color)] overflow-hidden flex items-center relative">
+        <div class="w-full h-full grid grid-cols-1 lg:grid-cols-2 absolute inset-0 pt-[85px]">
+            <div class="flex flex-col justify-center px-6 lg:px-16 xl:px-24 h-full relative z-10 bg-gradient-to-r from-[var(--bg-color)] to-[var(--bg-secondary)]">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded bg-[var(--bg-card)] text-[var(--accent-color)] text-[10px] font-black uppercase tracking-[0.2em] mb-4 w-max border border-[var(--border-color)]">
+                    Transparent Care
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-black text-[var(--text-main)] leading-[1.05] tracking-tight mb-6">
+                    Clear Pricing, <br><span class="text-[var(--accent-color)]">No Surprises.</span>
+                </h1>
+                <p class="text-[var(--text-muted)] text-lg font-medium max-w-md mb-8 border-l-2 border-[var(--accent-color)] pl-4">
+                    We believe in honest, accessible healthcare. Explore our comprehensive care packages tailored to fit your unique medical journey.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#packages" class="btn btn-solid !py-4 !px-8 text-sm flex gap-3 group">
+                        Explore Packages <i class="fas fa-arrow-down group-hover:translate-y-1 transition-transform"></i>
+                    </a>
+                    <a href="faq.html" class="btn btn-outline !bg-[var(--bg-card)] !py-4 !px-8 text-sm">Billing FAQs</a>
+                </div>
+            </div>
+            <div class="hidden lg:block relative h-full w-full bg-[var(--border-color)]">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2000&auto=format&fit=crop" alt="Doctor reviewing documents" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-l from-transparent to-[var(--bg-secondary)] opacity-90"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN PRICING PAGE CONTENT -->
+    <main class="w-full bg-[var(--bg-color)]">
+        
+        <!-- SECTION 1: MATERNITY PACKAGES (Uniform 3-Column Grid) -->
+        <section id="packages" class="w-full min-h-[100dvh] flex items-center justify-center py-24 border-b border-[var(--border-color)]">
+            <div class="max-w-[1440px] mx-auto px-6 lg:px-12 w-full">
+                <div class="text-center mb-16">
+                    <span class="text-[var(--accent-color)] text-xs font-black uppercase tracking-[0.2em] mb-2 block">Journey to Motherhood</span>
+                    <h2 class="text-4xl lg:text-5xl font-black text-[var(--text-main)]">Maternity Packages</h2>
+                </div>
+                
+                <div class="uniform-card-grid">
+                    <!-- Standard Package -->
+                    <div class="uniform-card">
+                        <div class="uniform-card-header">
+                            <span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Essential</span>
+                            <h3 class="text-2xl font-black text-[var(--text-main)]">Basic Care</h3>
+                            <div class="mt-4 flex items-end gap-2">
+                                <span class="text-4xl font-black text-[var(--text-main)]">$2,500</span>
+                                <span class="text-[var(--text-muted)] font-medium mb-1">/ entire term</span>
+                            </div>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">Standard prenatal monitoring and delivery support for a healthy, uncomplicated pregnancy.</p>
+                            <ul class="space-y-4 w-full">
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Monthly check-ups</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Standard Ultrasound (2)</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Normal Delivery Room</span></li>
+                                <li class="flex items-start gap-3 opacity-50"><i class="fas fa-times text-red-400 mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">3D/4D Imaging</span></li>
+                            </ul>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-outline w-full !py-3">Select Package</a>
+                        </div>
+                    </div>
+
+                    <!-- Premium Package -->
+                    <div class="uniform-card relative border-[var(--accent-color)] shadow-xl transform lg:-translate-y-4">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[var(--accent-color)] text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-md">Most Popular</div>
+                        <div class="uniform-card-header">
+                            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Comprehensive</span>
+                            <h3 class="text-2xl font-black text-[var(--text-main)]">Premium Care</h3>
+                            <div class="mt-4 flex items-end gap-2">
+                                <span class="text-4xl font-black text-[var(--text-main)]">$4,200</span>
+                                <span class="text-[var(--text-muted)] font-medium mb-1">/ entire term</span>
+                            </div>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">Enhanced monitoring, dedicated suites, and advanced imaging for complete peace of mind.</p>
+                            <ul class="space-y-4 w-full">
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Bi-weekly check-ups</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">3D/4D Ultrasounds (3)</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Private Birthing Suite (LDR)</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Lactation Consultation</span></li>
+                            </ul>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-solid w-full !py-3">Select Package</a>
+                        </div>
+                    </div>
+
+                    <!-- Platinum Package -->
+                    <div class="uniform-card">
+                        <div class="uniform-card-header">
+                            <span class="inline-block px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Elite</span>
+                            <h3 class="text-2xl font-black text-[var(--text-main)]">Platinum Care</h3>
+                            <div class="mt-4 flex items-end gap-2">
+                                <span class="text-4xl font-black text-[var(--text-main)]">$6,800</span>
+                                <span class="text-[var(--text-muted)] font-medium mb-1">/ entire term</span>
+                            </div>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">The ultimate VIP maternity experience featuring extensive post-natal support and luxury suites.</p>
+                            <ul class="space-y-4 w-full">
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Unlimited check-ups</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">All Lab & Genetic Tests</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">VIP Luxury Recovery Suite</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">1 Year Post-natal Pediatric Care</span></li>
+                            </ul>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-outline w-full !py-3">Select Package</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WELLNESS CLINIC PACKAGES (Uniform 3-Column Grid) -->
+        <section class="w-full min-h-[100dvh] flex items-center justify-center py-24 bg-[var(--bg-secondary)] border-b border-[var(--border-color)]">
+            <div class="max-w-[1440px] mx-auto px-6 lg:px-12 w-full">
+                <div class="text-center mb-16">
+                    <span class="text-[var(--accent-color)] text-xs font-black uppercase tracking-[0.2em] mb-2 block">Routine Health</span>
+                    <h2 class="text-4xl lg:text-5xl font-black text-[var(--text-main)]">Women's Wellness Plans</h2>
+                </div>
+                
+                <div class="uniform-card-grid">
+                    <!-- Annual Exam -->
+                    <div class="uniform-card">
+                        <div class="uniform-card-header">
+                            <span class="inline-block px-3 py-1 bg-green-100 text-green-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Routine</span>
+                            <h3 class="text-2xl font-black text-[var(--text-main)]">Annual Checkup</h3>
+                            <div class="mt-4 flex items-end gap-2">
+                                <span class="text-4xl font-black text-[var(--text-main)]">$250</span>
+                                <span class="text-[var(--text-muted)] font-medium mb-1">/ visit</span>
+                            </div>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">A fundamental yearly checkup to ensure your reproductive health is perfectly on track.</p>
+                            <ul class="space-y-4 w-full">
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Pelvic Examination</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Breast Exam</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Basic Pap Smear</span></li>
+                            </ul>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-outline w-full !py-3">Book Exam</a>
+                        </div>
+                    </div>
+
+                    <!-- Comprehensive Wellness -->
+                    <div class="uniform-card">
+                        <div class="uniform-card-header">
+                            <span class="inline-block px-3 py-1 bg-rose-100 text-rose-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Thorough</span>
+                            <h3 class="text-2xl font-black text-[var(--text-main)]">Total Wellness</h3>
+                            <div class="mt-4 flex items-end gap-2">
+                                <span class="text-4xl font-black text-[var(--text-main)]">$550</span>
+                                <span class="text-[var(--text-muted)] font-medium mb-1">/ visit</span>
+                            </div>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">A deep dive into your overall health, combining gynecological exams with extensive lab testing.</p>
+                            <ul class="space-y-4 w-full">
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">All Annual Checkup features</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Full Hormone Blood Panel</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Transvaginal Ultrasound</span></li>
+                            </ul>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-solid w-full !py-3">Book Wellness</a>
+                        </div>
+                    </div>
+
+                    <!-- Fertility Consultation -->
+                    <div class="uniform-card">
+                        <div class="uniform-card-header">
+                            <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Specialized</span>
+                            <h3 class="text-2xl font-black text-[var(--text-main)]">Fertility Assess</h3>
+                            <div class="mt-4 flex items-end gap-2">
+                                <span class="text-4xl font-black text-[var(--text-main)]">$850</span>
+                                <span class="text-[var(--text-muted)] font-medium mb-1">/ program</span>
+                            </div>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">A complete diagnostic workup for individuals or couples beginning their family planning journey.</p>
+                            <ul class="space-y-4 w-full">
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Specialist Consultation (2)</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Ovarian Reserve Testing</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check text-[var(--accent-color)] mt-1"></i><span class="text-[var(--text-main)] text-sm font-medium">Treatment Plan Strategy</span></li>
+                            </ul>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-outline w-full !py-3">Book Assessment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: PROMOTIONAL OFFERS (Uniform 3-Column Grid) -->
+        <section class="w-full min-h-[100dvh] flex items-center justify-center py-24 border-b border-[var(--border-color)]">
+            <div class="max-w-[1440px] mx-auto px-6 lg:px-12 w-full">
+                <div class="text-center mb-16">
+                    <span class="text-[var(--accent-color)] text-xs font-black uppercase tracking-[0.2em] mb-2 block">Limited Time</span>
+                    <h2 class="text-4xl lg:text-5xl font-black text-[var(--text-main)]">Seasonal Promos</h2>
+                </div>
+                
+                <div class="uniform-card-grid">
+                    <!-- Promo 1 -->
+                    <div class="uniform-card !bg-pink-50 dark:!bg-slate-800 border-pink-200 dark:border-slate-700">
+                        <div class="uniform-card-header">
+                            <div class="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center text-xl mb-4"><i class="fas fa-gift"></i></div>
+                            <h3 class="text-2xl font-black text-[var(--text-main)] mb-2">New Mother Starter Kit</h3>
+                            <p class="text-pink-500 font-black text-xl">Free with Premium</p>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-main)] text-sm font-medium leading-relaxed">Enroll in our Premium Maternity Package this month and receive a complimentary care kit featuring vitamins, nursing essentials, and a baby monitor.</p>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-solid !bg-pink-500 hover:!bg-pink-600 w-full !py-3">Claim Offer</a>
+                        </div>
+                    </div>
+
+                    <!-- Promo 2 -->
+                    <div class="uniform-card !bg-blue-50 dark:!bg-slate-800 border-blue-200 dark:border-slate-700">
+                        <div class="uniform-card-header">
+                            <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl mb-4"><i class="fas fa-tag"></i></div>
+                            <h3 class="text-2xl font-black text-[var(--text-main)] mb-2">Well-Woman Month</h3>
+                            <p class="text-blue-500 font-black text-xl">20% Off Labs</p>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-main)] text-sm font-medium leading-relaxed">In honor of Women's Health Month, we are offering a 20% discount on all preventative blood panels and genetic screening tests booked this week.</p>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-solid !bg-blue-500 hover:!bg-blue-600 w-full !py-3">Book Lab Test</a>
+                        </div>
+                    </div>
+
+                    <!-- Promo 3 -->
+                    <div class="uniform-card !bg-purple-50 dark:!bg-slate-800 border-purple-200 dark:border-slate-700">
+                        <div class="uniform-card-header">
+                            <div class="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center text-xl mb-4"><i class="fas fa-user-friends"></i></div>
+                            <h3 class="text-2xl font-black text-[var(--text-main)] mb-2">Family Referral</h3>
+                            <p class="text-purple-500 font-black text-xl">$100 Credit</p>
+                        </div>
+                        <div class="uniform-card-body">
+                            <p class="text-[var(--text-main)] text-sm font-medium leading-relaxed">Refer a friend or family member to FeminaCare for their maternity journey, and both of you will receive a $100 credit towards your next clinic service.</p>
+                        </div>
+                        <div class="uniform-card-footer">
+                            <a href="contact.html" class="btn btn-solid !bg-purple-500 hover:!bg-purple-600 w-full !py-3">Refer a Friend</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER PART -->
+    <footer>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-12 xl:gap-16 mb-10 pt-4">
+                <div class="xl:col-span-4 flex flex-col items-center xl:items-start text-center xl:text-left">
+                    <div class="mb-6">
+                        <!-- LOGO FIXED EXACTLY AS REQUESTED -->
+                        <a href="index.html"
+                            class="inline-flex items-center gap-3 text-2xl font-black tracking-widest uppercase"
+                            style="color: var(--text-main) !important; text-decoration: none;">
+                            <i class="fas fa-heartbeat" style="color: var(--accent-color); font-size: 1.5rem;"></i>
+                            FeminaCare
+                        </a>
+                    </div>
+                    <p class="opacity-80 leading-relaxed text-sm font-medium mb-8 max-w-sm mx-auto xl:mx-0"
+                        style="color: var(--text-muted);">
+                        Dedicated to providing comprehensive and compassionate healthcare for women at every stage of life. From routine checkups to specialized maternity care, your health is our priority.
+                    </p>
+                    <div class="flex space-x-4 justify-center xl:justify-start">
+                        <a href="#" class="social-link-circle"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link-circle"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link-circle"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" class="social-link-circle"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div class="xl:col-span-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center sm:text-left">
+                        <div>
+                            <h4>Patient Portal</h4>
+                            <ul class="space-y-4 inline-block sm:block text-left">
+                                <li><a href="login.html">Patient Login</a></li>
+                                <li><a href="user.html">Health Dashboard</a></li>
+                                <li><a href="pricing.html">Care Packages</a></li>
+                                <li><a href="faq.html">Clinic FAQ</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Our Services</h4>
+                            <ul class="space-y-4 inline-block sm:block text-left">
+                                <li><a href="services.html">Obstetrics</a></li>
+                                <li><a href="services.html">Gynecology</a></li>
+                                <li><a href="services.html">Fertility & Family</a></li>
+                                <li><a href="services.html">Ultrasound Imaging</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Contact Clinic</h4>
+                            <ul
+                                class="space-y-4 text-[var(--text-muted)] text-sm font-medium inline-block sm:block text-left">
+                                <li class="flex items-start gap-4">
+                                    <i class="fas fa-map-marker-alt mt-1 shrink-0"
+                                        style="color: var(--accent-color);"></i>
+                                    <span>123 Health Avenue<br>Medical District, MD</span>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <i class="fas fa-phone shrink-0" style="color: var(--accent-color);"></i>
+                                    <a href="tel:+15550198" class="break-all hover:text-[var(--accent-color)]">+1 (555)
+                                        800-CARE</a>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <i class="fas fa-envelope shrink-0" style="color: var(--accent-color);"></i>
+                                    <a href="contact.html"
+                                        class="break-all hover:text-[var(--accent-color)]">contact@feminacare.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="footer-bottom flex flex-col md:flex-row justify-between items-center text-xs gap-6 font-semibold uppercase tracking-widest text-center md:text-left">
+                <p style="color: var(--text-muted);">&copy; 2026 FeminaCare Gynecology & Maternity Clinic. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center gap-6 sm:gap-8">
+                    <a href="#">Patient Privacy</a>
+                    <a href="#">Terms of Care</a>
+                    <a href="#">Medical Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVITY SCRIPT -->
+    <script>
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 20) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        const mobileBtn = document.getElementById('mobile-btn');
+        const fullscreenMenu = document.getElementById('fullscreen-menu');
+        const closeMenu = document.getElementById('close-menu');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+
+        function toggleMenu() {
+            fullscreenMenu.classList.toggle('active');
+            drawerOverlay.classList.toggle('active');
+            document.body.style.overflow = fullscreenMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        mobileBtn.onclick = toggleMenu;
+        closeMenu.onclick = toggleMenu;
+        drawerOverlay.onclick = toggleMenu;
+
+        const themeDesktop = document.getElementById('theme-toggle-desktop');
+        const themeMobile = document.getElementById('theme-toggle-mobile');
+        const theme = localStorage.getItem('theme') || 'light';
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                if (themeMobile) themeMobile.classList.add('active');
+            } else {
+                document.body.classList.remove('dark-mode');
+                if (themeMobile) themeMobile.classList.remove('active');
+            }
+        }
+
+        updateThemeUI(theme === 'dark');
+
+        function toggleTheme() {
+            const isDark = !document.body.classList.contains('dark-mode');
+            updateThemeUI(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        themeDesktop.onclick = toggleTheme;
+        if (themeMobile) themeMobile.onclick = toggleTheme;
+
+        const rtlBtn = document.getElementById('rtl-btn');
+        const rtlMobile = document.getElementById('rtl-toggle-mobile');
+        const dir = localStorage.getItem('dir') || 'ltr';
+
+        function updateRTLUI(currentDir) {
+            const isRTL = currentDir === 'rtl';
+            if (rtlBtn) rtlBtn.innerText = isRTL ? 'RTL' : 'LTR';
+            if (rtlMobile) rtlMobile.innerText = isRTL ? 'RTL' : 'LTR';
+        }
+
+        if (dir === 'rtl') { document.documentElement.dir = 'rtl'; }
+        updateRTLUI(dir);
+
+        function toggleRTL() {
+            const isRTL = document.documentElement.dir === 'rtl';
+            const newDir = isRTL ? 'ltr' : 'rtl';
+            document.documentElement.dir = newDir;
+            localStorage.setItem('dir', newDir);
+            updateRTLUI(newDir);
+        }
+
+        if (rtlBtn) rtlBtn.onclick = toggleRTL;
+        if (rtlMobile) rtlMobile.onclick = toggleRTL;
+    </script>
+</body>
+
+</html>
