@@ -418,14 +418,20 @@
         <section id="map" class="w-full min-h-[60vh] border-b border-[var(--border-color)] bg-[var(--bg-secondary)] relative flex items-center justify-center p-6">
             <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" alt="Map Location">
             <div class="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/60"></div>
-            <div class="relative z-10 flex flex-col lg:flex-row gap-8 bg-[var(--bg-card)] p-8 md:p-12 rounded-[32px] shadow-2xl border border-[var(--border-color)] max-w-[1000px] w-full">
+            <div class="relative z-10 flex flex-col lg:flex-row gap-8 bg-[var(--bg-card)] p-8 md:p-10 rounded-[32px] shadow-2xl border border-[var(--border-color)] max-w-[1200px] w-full">
                 <div class="w-full lg:w-1/2 flex flex-col justify-center">
                     <div class="w-16 h-16 bg-rose-100 text-rose-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner"><i class="fas fa-map-marked-alt"></i></div>
                     <h3 class="text-3xl font-black text-[var(--text-main)] mb-4">Find Our Clinic</h3>
                     <p class="text-[var(--text-muted)] font-medium mb-6 text-lg leading-relaxed">Conveniently located in the Medical District, just two blocks south of Central Station.</p>
-                    <a href="#" class="btn btn-solid !py-4 w-max !px-10 !bg-rose-500 hover:!bg-rose-600 shadow-lg shadow-rose-500/30">Get Directions <i class="fas fa-external-link-alt ml-2"></i></a>
+                    <a href="https://maps.google.com/?q=123+Health+Avenue+Maryland" target="_blank" class="btn btn-solid !py-4 w-max !px-10 !bg-rose-500 hover:!bg-rose-600 shadow-lg shadow-rose-500/30">Get Directions <i class="fas fa-external-link-alt ml-2"></i></a>
                 </div>
-                <div class="w-full lg:w-1/2 flex flex-col gap-4 justify-center">
+                <div class="w-full lg:w-1/2 flex flex-col gap-4">
+                    <div class="w-full h-[260px] sm:h-[300px] rounded-2xl overflow-hidden border border-[var(--border-color)] shadow-inner">
+                        <iframe class="w-full h-full border-0"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d198059.29239847112!2d-77.154662!3d38.989697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b7c6de5af6e45b%3A0xc2524522d4885d2a!2sBethesda%2C%20MD!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
                     <div class="bg-[var(--bg-secondary)] p-5 rounded-2xl border border-[var(--border-color)] flex items-start gap-4">
                         <i class="fas fa-car text-[var(--accent-color)] mt-1 text-xl"></i>
                         <div>
