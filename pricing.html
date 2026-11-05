@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="images\images (6).png">
     <script>
         tailwind.config = {
+            darkMode: ['class', '.dark-mode'],
             theme: {
                 extend: {
                     fontWeight: {
@@ -553,47 +554,50 @@
                 
                 <div class="uniform-card-grid">
                     <!-- Promo 1 -->
-                    <div class="uniform-card !bg-pink-50 dark:!bg-slate-800 border-pink-200 dark:border-slate-700">
+                    <div class="uniform-card hover:border-pink-400">
                         <div class="uniform-card-header">
-                            <div class="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center text-xl mb-4"><i class="fas fa-gift"></i></div>
+                            <span class="inline-block px-3 py-1 bg-pink-100 text-pink-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Maternity Special</span>
+                            <div class="w-12 h-12 rounded-2xl bg-pink-500/10 text-pink-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-gift"></i></div>
                             <h3 class="text-2xl font-black text-[var(--text-main)] mb-2">New Mother Starter Kit</h3>
-                            <p class="text-pink-500 font-black text-xl">Free with Premium</p>
+                            <p class="text-pink-500 font-black text-xl mb-3">Free with Premium</p>
                         </div>
                         <div class="uniform-card-body">
-                            <p class="text-[var(--text-main)] text-sm font-medium leading-relaxed">Enroll in our Premium Maternity Package this month and receive a complimentary care kit featuring vitamins, nursing essentials, and a baby monitor.</p>
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">Enroll in our Premium Maternity Package this month and receive a complimentary care kit featuring vitamins, nursing essentials, and a baby monitor.</p>
                         </div>
                         <div class="uniform-card-footer">
-                            <a href="contact.html" class="btn btn-solid !bg-pink-500 hover:!bg-pink-600 w-full !py-3">Claim Offer</a>
+                            <a href="contact.html" class="btn btn-solid !bg-pink-500 hover:!bg-pink-600 w-full !py-3 !text-white shadow-md">Claim Offer</a>
                         </div>
                     </div>
 
                     <!-- Promo 2 -->
-                    <div class="uniform-card !bg-blue-50 dark:!bg-slate-800 border-blue-200 dark:border-slate-700">
+                    <div class="uniform-card hover:border-blue-400">
                         <div class="uniform-card-header">
-                            <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl mb-4"><i class="fas fa-tag"></i></div>
+                            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Diagnostics Special</span>
+                            <div class="w-12 h-12 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-tag"></i></div>
                             <h3 class="text-2xl font-black text-[var(--text-main)] mb-2">Well-Woman Month</h3>
-                            <p class="text-blue-500 font-black text-xl">20% Off Labs</p>
+                            <p class="text-blue-500 font-black text-xl mb-3">20% Off Labs</p>
                         </div>
                         <div class="uniform-card-body">
-                            <p class="text-[var(--text-main)] text-sm font-medium leading-relaxed">In honor of Women's Health Month, we are offering a 20% discount on all preventative blood panels and genetic screening tests booked this week.</p>
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">In honor of Women's Health Month, we are offering a 20% discount on all preventative blood panels and genetic screening tests booked this week.</p>
                         </div>
                         <div class="uniform-card-footer">
-                            <a href="contact.html" class="btn btn-solid !bg-blue-500 hover:!bg-blue-600 w-full !py-3">Book Lab Test</a>
+                            <a href="contact.html" class="btn btn-solid !bg-blue-500 hover:!bg-blue-600 w-full !py-3 !text-white shadow-md">Book Lab Test</a>
                         </div>
                     </div>
 
                     <!-- Promo 3 -->
-                    <div class="uniform-card !bg-purple-50 dark:!bg-slate-800 border-purple-200 dark:border-slate-700">
+                    <div class="uniform-card hover:border-purple-400">
                         <div class="uniform-card-header">
-                            <div class="w-12 h-12 rounded-full bg-purple-500 text-white flex items-center justify-center text-xl mb-4"><i class="fas fa-user-friends"></i></div>
+                            <span class="inline-block px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-4">Community Reward</span>
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl mb-4"><i class="fas fa-user-friends"></i></div>
                             <h3 class="text-2xl font-black text-[var(--text-main)] mb-2">Family Referral</h3>
-                            <p class="text-purple-500 font-black text-xl">$100 Credit</p>
+                            <p class="text-purple-500 font-black text-xl mb-3">$100 Credit</p>
                         </div>
                         <div class="uniform-card-body">
-                            <p class="text-[var(--text-main)] text-sm font-medium leading-relaxed">Refer a friend or family member to FeminaCare for their maternity journey, and both of you will receive a $100 credit towards your next clinic service.</p>
+                            <p class="text-[var(--text-muted)] text-sm font-medium leading-relaxed mb-6">Refer a friend or family member to FeminaCare for their maternity journey, and both of you will receive a $100 credit towards your next clinic service.</p>
                         </div>
                         <div class="uniform-card-footer">
-                            <a href="contact.html" class="btn btn-solid !bg-purple-500 hover:!bg-purple-600 w-full !py-3">Refer a Friend</a>
+                            <a href="contact.html" class="btn btn-solid !bg-purple-500 hover:!bg-purple-600 w-full !py-3 !text-white shadow-md">Refer a Friend</a>
                         </div>
                     </div>
                 </div>
